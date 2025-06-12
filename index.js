@@ -21,7 +21,7 @@ const cca = new msal.ConfidentialClientApplication(msalConfig);
 
 const tokenRequest = {
     scopes: ["https://graph.microsoft.com/.default"],
-    skipCache: true, // false:use cache, true: use no cache
+    skipCache: false, // false:use cache, true: use no cache
 };
 
 cca.acquireTokenByClientCredential(tokenRequest).then((response) => {
