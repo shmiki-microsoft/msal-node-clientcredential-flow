@@ -12,7 +12,7 @@ const msalConfig = {
                 console.log(message);
             },
             piiLoggingEnabled: false,
-            logLevel: 'debug',
+            logLevel: 'verbose',
         },
     },
 };
