@@ -24,29 +24,26 @@ const tokenRequest = {
     skipCache: false, // false:use cache, true: use no cache
 };
 
+// Microsoft Entra ID と認証の上トークンを取得する
 cca.acquireTokenByClientCredential(tokenRequest).then((response) => {
     console.log("acquireTokenByClientCredential call 1st time");
     console.log(JSON.stringify(response));
 
-    // こっちはMSAL Node により自動的にメモリキャッシュされたトークンを取る
+    //MSAL Node により自動的にメモリキャッシュされたトークンを取る
     cca.acquireTokenByClientCredential(tokenRequest).then((response) => {
         console.log("acquireTokenByClientCredential call 2nd time");
         console.log(JSON.stringify(response));
         }).catch((error) => {
             console.log(JSON.stringify(error));
         });
-    // こっちでもできる
-    const res_= cca.getTokenCache()
-    console.log("acquireTokenByClientCredential call 3nd time");
-    console.log(JSON.stringify(res_));
 
 }).catch((error) => {
     console.log(JSON.stringify(error));
 });
 
-// こっち非同期処理でメモリキャッシュされる前に動くのでトークンを Microsoft Entra ID からもらい直す
+// 非同期処理のため、メモリキャッシュされる前に動作する。そのため Microsoft Entra ID と認証の上トークンを取得する
 cca.acquireTokenByClientCredential(tokenRequest).then((response) => {
-    console.log("acquireTokenByClientCredential call 4rd time");
+    console.log("acquireTokenByClientCredential call 4th time");
     console.log(JSON.stringify(response));
     }).catch((error) => {
         console.log(JSON.stringify(error));
