@@ -12,7 +12,7 @@ const msalConfig = {
                 console.log(message);
             },
             piiLoggingEnabled: false,
-            logLevel: 'verbose',
+            logLevel: 'info',
         },
     },
 };
@@ -64,6 +64,29 @@ cca.acquireTokenByClientCredential(tokenRequest).then((response) => {
             } else {
                 console.log("ユーザ情報が取得できませんでした。");
             }
+    } catch (error) {
+        console.log(error.message);
+        console.log(error.stack);
+    }
+})();
+
+//Graph SDK for JavaScript を使ってユーザ情報の更新差分を取る
+(async () => {
+    try {
+        // Graph SDK for JavaScript を使ってユーザ情報を取得する
+        console.log("Acquire user details (Delta Query)");
+        const result = await graphClient.getUsersDelta(cca, tokenRequest.scopes);
+        if (result && result.value && Array.isArray(result.value)) {
+            console.log(`取得件数: ${result.value.length}`);
+            result.value.forEach((user, idx) => {
+                console.log(`No.${idx + 1} UPN: ${user.userPrincipalName} Display Name: ${user.displayName}`);
+            });
+            if (result.deltaLink) {
+                console.log(`deltaLink: ${result.deltaLink}`);
+            }
+        } else {
+            console.log("ユーザ情報が取得できませんでした。");
+        }
     } catch (error) {
         console.log(error.message);
         console.log(error.stack);
