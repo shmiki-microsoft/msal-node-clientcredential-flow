@@ -81,6 +81,7 @@ const getUsersDelta = async (msalClient, scopes) => {
     response = await client
       .api('/users/delta')
       .select('displayName,mail,userPrincipalName')
+      .top(1)
       .get();
   }
 
